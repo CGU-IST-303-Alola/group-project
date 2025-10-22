@@ -1,12 +1,15 @@
-from flask import session
+from flask import session, current_app
 import sqlite3
 import os
 
 def get_db_connection():
-	base_fp = os.path.dirname(os.path.abspath(__file__))
-	data_fp = os.path.join(base_fp, "data", "database.db")
+	db_path = current_app.config.get("db_path")
+
+	if not db_path:
+		base_fp = os.path.dirname(os.path.abspath(__file__))
+		db_path = os.path.join(base_fp, "data", "database.db")
 	
-	connection = sqlite3.connect(data_fp)
+	connection = sqlite3.connect(db_path)
 	connection.row_factory = sqlite3.Row
 	return connection
 

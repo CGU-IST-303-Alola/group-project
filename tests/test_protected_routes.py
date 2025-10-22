@@ -11,10 +11,8 @@ def client():
 """
 Tests that restricted pages cannot be accessed until login
 """
-def test_protected_routes(client):
-	protected_routes = ["/home"]
-	
-	for route in protected_routes:
-		response = client.get(route, follow_redirects=False)
-		assert response.status_code == 302
-		assert "/login" in response.headers["Location"]
+@pytest.mark.parametrize("route", ["/home"])
+def test_protected_routes(client, route):
+	response = client.get(route, follow_redirects=False)
+	assert response.status_code == 302
+	assert "/login" in response.headers["Location"]
