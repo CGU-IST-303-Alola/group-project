@@ -56,7 +56,7 @@ def routes_startup(app):
 	def logout():
 		session.pop("user_id", None)
 		# session.clear()
-		flash("You have been logged out.", "info")
+		flash("Successfully Logged Out", "info")
 		return redirect(url_for("login"))
 
 
