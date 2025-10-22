@@ -4,13 +4,24 @@ from database import get_db_connection
 def routes_startup(app):
 	@app.route("/")
 	def root():
-		if session.get("logged_in") is not True:
-			return redirect(url_for("login"))
-		return render_template("home.html")
+		return redirect(url_for("home"))
 	
 	@app.route("/home")
 	def home():
-		return redirect(url_for("root"))
+		if session.get("logged_in") is not True:
+			return redirect(url_for("login"))
+		
+		role = session.get("role")
+
+		if role == "PATIENT":
+			return render_template("home_patient.html")
+		elif role == "PHYSICIAN":
+			return render_template("home_physician.html")
+		elif role == "ADMIN":
+			return render_template("home_admin.html")
+		else:
+			flash("Invalid Role")
+			return redirect(url_for("logout"))
 	
 	@app.route("/login", methods=["GET", "POST"])
 	def login():
@@ -33,7 +44,7 @@ def routes_startup(app):
 			connection.close()
 			if user:
 				session["logged_in"] = True
-				session["role"] = user.get("ROLE")
+				session["role"] = user["ROLE"]
 				return redirect(url_for("home"))
 			else:
 				flash("Invalid Credentials")
@@ -43,6 +54,7 @@ def routes_startup(app):
 	@app.route("/logout")
 	def logout():
 		session.pop("logged_in", None)
+		session.pop("role", None)
 		flash("You have been logged out.")
 		return redirect(url_for("login"))
 
