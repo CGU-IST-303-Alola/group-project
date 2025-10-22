@@ -22,12 +22,6 @@ pip install -r requirements.txt
 ```
 
 ## Running
-Create database<br>
-```
-cd app
-python init_db.py
-```
-
 Run flask app using<br>
 ```
 cd app
