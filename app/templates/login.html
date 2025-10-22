@@ -10,8 +10,8 @@
 			{% if messages %}
 				{% for category, message in messages %}
 					{% if category == 'info' %}
+						<span><em>{{ message }}</em></span>
 						<br>
-						<span>{{ message }}</span>
 						<br>
 					{% endif %}
 				{% endfor %}

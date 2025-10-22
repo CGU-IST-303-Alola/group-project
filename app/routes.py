@@ -1,5 +1,5 @@
 from flask import session, redirect, url_for, render_template, request, flash
-from database import get_db_connection, get_current_user
+from app.database import get_db_connection, get_current_user
 
 def routes_startup(app):
 	@app.route("/")
