@@ -31,8 +31,8 @@ def routes_startup(app):
 		
 		error=None
 		if request.method == "POST":
-			username = request.form.get("user_id")
-			password = request.form.get("user_password")
+			username = request.form.get("username")
+			password = request.form.get("password")
 
 			connection = get_db_connection()
 			user = connection.execute(
@@ -43,12 +43,13 @@ def routes_startup(app):
 				""", (username, password)
 			).fetchone()
 			connection.close()
+			
 			if user:
 				session["user_id"] = user["ID"]
 				return redirect(url_for("home"))
 			else:
 				flash("Invalid Login Credentials", "error")
-				return redirect(url_for("login"))
+				return render_template("login.html", previous_attempt=username)
 		
 		return render_template("login.html")
 	
