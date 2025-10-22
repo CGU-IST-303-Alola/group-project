@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ## Running
 Run flask app using<br>
 ```
-flask --app ./run.py run
+python run.py
 # or 
 flask --app ./run.py --debug run
 ```
@@ -32,5 +32,5 @@ flask --app ./run.py --debug run
 ## Testing
 Run pytests<br>
 ```
-pytest -v
+pytest tests/ -v
 ```

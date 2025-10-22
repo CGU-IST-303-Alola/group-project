@@ -1,8 +1,9 @@
 import pytest
-from app.run import app
+from app import create_app
 
 @pytest.fixture
 def client():
+	app = create_app()
 	app.config["TESTING"] = True
 	with app.test_client() as client:
 		yield client
@@ -10,7 +11,7 @@ def client():
 """
 Tests that restricted pages cannot be accessed until login
 """
-def test_redirects_require_login(client):
+def test_protected_routes(client):
 	protected_routes = ["/home"]
 	
 	for route in protected_routes:
