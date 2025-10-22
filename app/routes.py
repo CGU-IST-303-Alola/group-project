@@ -60,5 +60,3 @@ def routes_startup(app):
 		flash("Successfully Logged Out", "info")
 		return redirect(url_for("login"))
 
-
-	

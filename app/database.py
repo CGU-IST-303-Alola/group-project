@@ -1,8 +1,12 @@
 from flask import session
 import sqlite3
+import os
 
 def get_db_connection():
-	connection = sqlite3.connect("data/database.db")
+	base_fp = os.path.dirname(os.path.abspath(__file__))
+	data_fp = os.path.join(base_fp, "data", "database.db")
+	
+	connection = sqlite3.connect(data_fp)
 	connection.row_factory = sqlite3.Row
 	return connection
 

@@ -2,11 +2,11 @@ import sqlite3
 import os
 
 base_fp = os.path.dirname(os.path.abspath(__file__))
-data_fp = os.path.join(base_fp, "data/database.db")
+data_fp = os.path.join(base_fp, "data", "database.db")
 schema_fp = os.path.join(base_fp, "schema.sql")
 
 def database_initialize():
-	os.makedirs("data", exist_ok=True)
+	os.makedirs(os.path.join(base_fp, "data"), exist_ok=True)
 	connection = sqlite3.connect(data_fp)
 
 	with open(schema_fp, "r") as schema_f:
