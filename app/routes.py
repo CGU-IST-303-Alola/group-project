@@ -1,5 +1,5 @@
 from flask import session, redirect, url_for, render_template, request, flash
-from database import get_db_connection
+from database import get_db_connection, get_current_user
 
 def routes_startup(app):
 	@app.route("/")
@@ -8,24 +8,25 @@ def routes_startup(app):
 	
 	@app.route("/home")
 	def home():
-		if session.get("logged_in") is not True:
+		user = get_current_user()
+		if not user:
 			return redirect(url_for("login"))
 		
-		role = session.get("role")
+		role = user["ROLE"]
 
 		if role == "PATIENT":
-			return render_template("home_patient.html")
+			return render_template("home_patient.html", user=user)
 		elif role == "PHYSICIAN":
-			return render_template("home_physician.html")
+			return render_template("home_physician.html", user=user)
 		elif role == "ADMIN":
-			return render_template("home_admin.html")
+			return render_template("home_admin.html", user=user)
 		else:
 			flash("Invalid Role")
 			return redirect(url_for("logout"))
 	
 	@app.route("/login", methods=["GET", "POST"])
 	def login():
-		if session.get("logged_in") is True:
+		if get_current_user():
 			return redirect(url_for("home"))
 		
 		error=None
@@ -43,19 +44,19 @@ def routes_startup(app):
 			).fetchone()
 			connection.close()
 			if user:
-				session["logged_in"] = True
-				session["role"] = user["ROLE"]
+				session["user_id"] = user["ID"]
 				return redirect(url_for("home"))
 			else:
-				flash("Invalid Credentials")
+				flash("Invalid Login Credentials", "error")
+				return redirect(url_for("login"))
 		
 		return render_template("login.html")
 	
 	@app.route("/logout")
 	def logout():
-		session.pop("logged_in", None)
-		session.pop("role", None)
-		flash("You have been logged out.")
+		session.pop("user_id", None)
+		# session.clear()
+		flash("You have been logged out.", "info")
 		return redirect(url_for("login"))
 
 

@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Home</title>
-	</head>
-	<body>
-		<h1>Welcome, Physician!</h1>
-		<a href="{{ url_for('logout') }}">Logout</a>
-	</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Welcome, {{ user["USERNAME"] }}!</h1>
+	<p>You are logged in as a <strong>Patient</strong>.</p>
+{% endblock %}
