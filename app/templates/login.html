@@ -2,40 +2,41 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Login</title>
+		<title>HealthPortal - Login</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 	</head>
 	<body>
-		<h2>Login Page</h2>
-		{% with messages = get_flashed_messages(with_categories=true) %}
-			{% if messages %}
-				{% for category, message in messages %}
-					{% if category == 'info' %}
-						<span><em>{{ message }}</em></span>
-						<br>
-						<br>
-					{% endif %}
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
-		<form method="post">
-			<label>Username:</label><br>
-			<input type="text" name="username" value="{{previous_attempt or ''}}"><br>
-			<label>Password:</label><br>
-			<input type="password" name="password"><br>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					{% for category, message in messages %}
-						{% if category == 'error' %}
-							<br>
-							<span style="color: red">{{ message }}</span>
-							<br>
+		<div class="top">
+			<p class="title">HealthPortal</p>
+		</div>
+		<div class="bottom">
+			<form method="POST" action="/login">
+				<div class="signin-container">
+					{% with messages = get_flashed_messages(with_categories=true) %}
+						{% if messages %}
+							{% for category, message in messages %}
+								<div class="flash-message {{ 'success' if category == 'info' else 'error' }}">
+									{{ message }}
+								</div>
+							{% endfor %}
 						{% endif %}
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<br>
-			<button type="submit">Login</button>
-		</form>
-
+					{% endwith %}
+					
+					<div class="container">
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username" class="input_field" value="{{ previous_attempt or '' }}" required>
+					</div>
+					
+					<div class="container">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" class="input_field" required>
+					</div>
+					
+					<div class="container">
+						<button type="submit">Log In</button>
+					</div>
+				</div>
+			</form>
+		</div>
 	</body>
 </html>

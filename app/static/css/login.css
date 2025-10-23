@@ -1,0 +1,143 @@
+:root {
+	--top-h: 172px;
+	--top-color: rgb(103, 208, 218);
+	--bottom-color: rgb(192, 192, 192);
+	--signin-container-color: rgb(156, 156, 156);
+	--field-box-color: rgb(217, 217, 217);
+	--container-w: 256px;
+	--container-h: 56px;
+	--container-margin: 16px;
+	--container-label-offset: 4px 0px 0px 16px;
+	--border-w: 4px;
+}
+
+html {
+	font-family: "Candara Light", Candara, sans-serif;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+}
+
+.top {
+	height: var(--top-h);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--top-color);
+
+	.title {
+		margin: 0;
+		padding: 0;
+		font-size: 72px;
+	}
+}
+
+.bottom {
+	min-height: calc(100vh - var(--top-h));
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background-color: var(--bottom-color);
+
+	.signin-container {
+		width: 256px;
+		margin: 32px 0;
+		padding: 48px 32px 32px 32px;
+		background-color: var(--signin-container-color);
+		border-radius: 64px;
+		position: relative;
+
+		.flash-message {
+			width: var(--container-w);
+			height: 24px;
+			position: absolute;
+			top: 12px;
+			left: 32px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+
+			&.success {
+				color: green;
+			}
+
+			&.error {
+				color: red;
+			}
+		}
+
+		.container {
+			width: calc(var(--container-w) - (var(--border-w) * 2));
+			height: var(--container-h);
+			margin-bottom: var(--container-margin);
+			background-color: var(--field-box-color);
+			border: var(--border-w) solid transparent;
+			border-radius: 28px;
+			position: relative;
+			display: flex;
+			align-items: center;
+
+			&:last-child {
+				width: var(--container-w);
+				margin-bottom: 0;
+				border: none;
+			}
+
+			&:focus-within {
+				border-color: var(--top-color);
+			}
+
+			&:focus-within:last-child {
+				border: none;
+			}
+
+			label {
+				top: 0px;
+				left: 0px;
+				height: 20px;
+				position: absolute;
+				margin: var(--container-label-offset);
+				font-size: 14px;
+				user-select: none;
+				z-index: 1;
+			}
+
+			.input_field {
+				position: absolute;
+				left: -4px;
+				width: calc(var(--container-w) - 40px);
+				height: 24px;
+				background: transparent;
+				border: none;
+				border-radius: 28px;
+				outline: none;
+				padding: 28px 20px 12px;
+				font-weight: bold;
+				font-size: 18px;
+			}
+
+			button {
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				background: transparent;
+				border: none;
+				border-radius: 28px;
+				outline: none;
+				cursor: pointer;
+				font-size: 24px;
+				-webkit-tap-highlight-color: transparent;
+
+				&:active {
+					background-color: white;
+				}
+			}
+		}
+	}
+}
