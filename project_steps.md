@@ -79,12 +79,14 @@
 	- Add a query for user
 	- Check users credentials
 
-## Begin Testing
+## Test Login Credentials
 
 - Install `Pytest`
 - Create `pytests.py`
 	- Import `pytest` and `run` from `app`
-	
+	- Create test client
+	- Parameterize test cases
+- Add and Test client with cases
 
 # Version 2
 
