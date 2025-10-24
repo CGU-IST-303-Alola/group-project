@@ -7,6 +7,10 @@
 	- [Update Routing](#update-routing-for-database-authentication)
 	- [Test Login](#test-login-credentials)
 - [Version 2](#version-2)
+	- [Project Refactoring](#project-restructuring-and-refactoring)
+	- [Page Design](#template-design)
+	- [Pytest Refactoring](#refactor-pytests)
+	- [Update Login Page](#implement-theme-to-login)
 
 # Version 1
 
