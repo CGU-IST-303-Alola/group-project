@@ -31,7 +31,6 @@ def client():
 	os.unlink(db_path)
 
 def test_login_page(client):
-	"""Test Login Page Loads"""
 	response = client.get("/login")
 	assert response.status_code == 200
 
@@ -41,7 +40,6 @@ def test_login_page(client):
 	("testadmin", "testpass789"),
 ])
 def test_login_success(client, username, password):
-	"""Test Valid Users Login"""
 	response = client.post("/login", data={
 		"username": username,
 		"password": password
@@ -50,7 +48,6 @@ def test_login_success(client, username, password):
 	assert response.status_code == 200
 
 def test_login_invalid(client):
-	"""Test Invalid Login"""
 	response = client.post("/login", data={
 		"username": "wronguser",
 		"password": "wrongpassword"
@@ -60,7 +57,6 @@ def test_login_invalid(client):
 	assert b"Invalid Login Credentials" in response.data
 
 def test_logout(client):
-	"""Test Logout"""
 	client.post("/login", data={
 		"username": "testpatient",
 		"password": "testpass123"

@@ -8,9 +8,6 @@ def client():
 	with app.test_client() as client:
 		yield client
 
-"""
-Tests that restricted pages cannot be accessed until login
-"""
 @pytest.mark.parametrize("route", ["/home"])
 def test_protected_routes(client, route):
 	response = client.get(route, follow_redirects=False)
