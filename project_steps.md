@@ -1,20 +1,21 @@
 # Table of Contents
-- [Version 1](#version-1)
-	- [Initial Setup](#initial-setup)
+- [V0.1 Initial Setup](#version-01-initial-setup)
+	- [Project Setup](#begin-project-setup)
 	- [Begin Front End](#begin-front-end)
 	- [Begin Routing](#begin-routing)
 	- [Implement Database](#implement-database)
 	- [Update Routing](#update-routing-for-database-authentication)
 	- [Test Login](#test-login-credentials)
-- [Version 2](#version-2)
-	- [Project Refactoring](#project-restructuring-and-refactoring)
-	- [Page Design](#template-design)
-	- [Pytest Refactoring](#refactor-pytests)
-	- [Update Login Page](#implement-theme-to-login)
+- [V0.2 Refactoring](#version-02-refactoring)
+	- [Refactor App](#refactor-app)
+	- [Refactor Database](#refactor-database)
+	- [Refactor Routing](#refactor-routing)
+	- [Refactor Pytests](#refactor-pytests)
+	- [Redesign Login Portal](#redesign-login-page)
 
-# Version 1
+# Version 0.1 Initial Setup
 
-## Initial Setup
+## Begin Project Setup
 
 - Create Python virtual enviroment
 - Create Github Repository for version control
@@ -68,13 +69,13 @@
 	- Create `PHYSICIAN` table
 	- Create `ADMIN` table
 - Create `init_db.py`
-	- Create function `initialize_database`
+	- Create function `initialize_database()`
 		- Import `app`, `db`, and tables from models
 		- Create tables
 		- Create entries
 		- Add entries to `db`
 - Add database to `run.py`
-	- Import and call`initialize_database`
+	- Import and call`initialize_database()`
 - Add check for existing database
 	- Import `os`
 	- Add check for directory and file of database
@@ -95,80 +96,124 @@
 	- Parameterize test cases
 - Add and Test client with cases
 
-# Version 2
+# Version 0.2 Refactoring
 
-## Project Restructuring and Refactoring
+## Refactor App
 
-- Refactor App
-	- Remove pip installations
-	- Install `Flask` and `pytest`
-	- Create `requirements.txt`
-		- Run `pip freeze` to save imports
-	- Create `app/` package
-		- Move `run.py` outside of `app`
-		- Update all module imports with `app.`
-		- Create `__init__.py`
-			- Import `os`, `app.init_db`, `Flask`, and `app.routes`
-			- Create function `create_app`
-				- Create Flask `app`
-				- Check for directory and file of database
-				- Call `database_initialize` from `app.init_db`
-				- Add Route Handling with `routes_startup` from `app.routes`
-	- Update `run.py`
-		- Import and Call `create_app`
-		- Run `app` in main
-	- Update file handling
-		- Replace hardcoded paths using `os.path`
-	- Update `guide.md`
-		- Modify directory for running Flask app
-- Refactor Database
-	- Remove `models.py`
-	- Create `schema.sql`
-		- Create `USERS` Table
-			- Add `ID`, `USERNAME`, `PASSWORD`, and `ROLE`
-			- Add role constraint to `ROLE`
-		- Create `PROFILES` Table
-			- Add User details and Foreign Key to `USERS`
-	- Refactor `init_db.py`
-		- Import `sqlite3`
-		- Modify `database_initialize`
-			- Check for database existence
-			- Connect to `db_path`
-			- Read and Execute `schema.sql`
-	- Create `database.py`
-		- Import `session` and `current_app` from `Flask`
-		- Import `sqlite3`
-		- Create function to get connection
-			- Check for database existence
-			- Connect to `db_path`
-		- Add `db_path` to config across files
-		- Create function `` to get user from `USERS`
-			- Get `user_id` from session
-			- Connect and Search for user with `user_id`
-- Refactor Routing
-	- Modify `routes.py`
-		- Replace `models` and `run` imports with `app.database` functions
-		- Add necessary `Flask` imports
-		- Create `routes_startup`
-			- Move routes into function
-			- Update `/login` route
-				- Check login status
-				- Check Input from form
-					- Request Credentials from form
-					- Connect to database
-					- Authenticate Credentials
-					- Handle Credentials
-					- Add `user_id` to session
-			- Add `/home` route
-				- Check login status
-					- Get User
-				- Render User's `ROLE` as Page
-					- Pass user as argument
-			- Add `/logout` route
-				- Remove `user_id` from session
+- Remove pip installations
+- Install `Flask` and `pytest`
+- Create `requirements.txt`
+	- Run `pip freeze` to save imports
+- Create `app/` package
+	- Move `run.py` outside of `app`
+	- Update all module imports with `app.`
+	- Create `__init__.py`
+		- Import `os`, `app.init_db`, `Flask`, and `app.routes`
+		- Create function `create_app()`
+			- Create Flask `app`
+			- Check for file of database
+			- Call `database_initialize()` from `app.init_db`
+			- Add Route Handling with `routes_startup()` from `app.routes`
+- Update `run.py`
+	- Import and Call `create_app()`
+	- Run `app` in main
+- Update file handling
+	- Replace hardcoded paths using `os.path`
+- Update `guide.md`
+	- Modify directory for running Flask app
 
-## Template Design
+## Refactor Database
+
+- Remove `models.py`
+- Create `schema.sql`
+	- Create `USERS` Table
+		- Add `ID`, `USERNAME`, `PASSWORD`, and `ROLE`
+		- Add role constraint to `ROLE`
+	- Create `PROFILES` Table
+		- Add User details and Foreign Key to `USERS`
+- Refactor `init_db.py`
+	- Import `sqlite3`
+	- Modify `database_initialize()`
+		- Check for database existence
+		- Connect to `db_path`
+		- Read and Execute `schema.sql`
+- Create `database.py`
+	- Import `session` and `current_app` from `Flask`
+	- Import `sqlite3`
+	- Create function to get connection
+		- Check for database existence
+		- Connect to `db_path`
+	- Add `db_path` to config across files
+	- Create function `get_db_connection()` to get user from `USERS`
+		- Get `user_id` from session
+		- Connect and Search for user with `user_id`
+
+## Refactor Routing
+
+- Modify `routes.py`
+	- Replace `models` and `run` imports with `app.database` functions
+	- Add necessary `Flask` imports
+	- Create `routes_startup()`
+		- Move routes into function
+		- Update `/login` route
+			- Check login status
+			- Check Input from form
+				- Request Credentials from form
+				- Connect to database
+				- Authenticate Credentials
+				- Handle Credentials
+				- Add `user_id` to session
+		- Add `/home` route
+			- Check login status
+				- Get User
+			- Render User's `ROLE` as Page
+				- Pass user as argument
+		- Add `/logout` route
+			- Remove `user_id` from session
 
 ## Refactor Pytests
 
-## Implement Theme to Login
+- Delete `pytests.py`
+- Create `tests/` directory outside of `app/`
+- Create and Set up `conftest.py`
+- Create `test_protected_routes.py`
+	- Import `pytest` and `create_app()`
+	- Create `client()`
+		- Add `pytest.fixture`
+		- Add `create_app()`
+			- Set `app` to `TESTING`
+	- Create `test_protected_routes()`
+		- Parametrize routes
+		- Test redirects for unauthenticated users
+- Create `test_login.py`
+	- Import `pytest`, `create_app()` and necessary libraries
+	- Create `client()`
+		- Add `pytest.fixture`
+		- Create tempfile
+		- Create `sqlite3` connection to tempfile
+		- Read and Execute `schema.sql`
+		- Create Test Database
+		- Add `create_app()`
+			- Set `app` to `TESTING`
+			- Set `db_path` to tempfile
+	- Create `test_login_page()`
+		- Test response of `/login`
+	- Create `test_login_success()`
+		- Parametrize correct usernames and passwords
+		- Test Correct usernames and passwords
+	- Create `test_login_invalid()`
+		- Test Incorrect username and password
+	- Create `test_logout()`
+		- Login with correct credentials
+		- Test `/logout` response
+
+
+## Redesign Login Page
+
+- Design UI in Figma
+- Create `templates/login.html`
+	- Create Top Section
+	- Create Bottom Section
+- Create `static/css/login.css`
+
+
