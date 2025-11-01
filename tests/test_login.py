@@ -6,7 +6,7 @@ from app import create_app
 
 @pytest.fixture
 def client():
-	db_dir, db_path = tempfile.mkstemp(suffix=".db")
+	db_fd, db_path = tempfile.mkstemp(suffix=".db")
 	
 	conn = sqlite3.connect(db_path)
 	with open("app/schema.sql", "r") as f:
@@ -27,7 +27,7 @@ def client():
 	with app.test_client() as client:
 		yield client
 	
-	os.close(db_dir)
+	os.close(db_fd)
 	os.unlink(db_path)
 
 def test_login_page(client):
