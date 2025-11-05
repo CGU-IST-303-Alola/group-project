@@ -214,6 +214,16 @@
 - Create `templates/login.html`
 	- Create Top Section
 	- Create Bottom Section
+		- Create Sign In Container
+			- Show Flash Message
+				- Get Flash Messages
+				- Display Info or Error Message
+			- Create Username Container
+				- Add Username Field
+			- Create Password Container
+				- Add Password Field
+			- Create Log In Button
+				- Add Submit Button
 - Create `static/css/login.css`
-
+	- Add Styling
 
