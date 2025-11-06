@@ -16,7 +16,6 @@ def database_initialize(db_path=None):
 		connection.execute("""
 			INSERT INTO USERS (USERNAME, PASSWORD, ROLE, VERIFIED)
 			VALUES
-			("patient1", "patientpassword", "PATIENT", 1),
 			("physician1", "physicianpassword", "PHYSICIAN", 1),
 			("admin1", "adminpassword", "ADMIN", 1);
 			""")

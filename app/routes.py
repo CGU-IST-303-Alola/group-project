@@ -14,9 +14,7 @@ def routes_startup(app):
 		
 		role = user["ROLE"]
 
-		if role == "PATIENT":
-			return render_template("home_patient.html", user=user)
-		elif role == "PHYSICIAN":
+		if role == "PHYSICIAN":
 			return render_template("home_physician.html", user=user)
 		elif role == "ADMIN":
 			return render_template("home_admin.html", user=user)
