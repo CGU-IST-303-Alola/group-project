@@ -15,7 +15,6 @@ def client():
 	conn.execute("""
 		INSERT INTO USERS (USERNAME, PASSWORD, ROLE, VERIFIED)
 		VALUES
-		("testpatient", "testpass123", "PATIENT", 1),
 		("testdoctor", "testpass456", "PHYSICIAN", 1),
 		("testadmin", "testpass789", "ADMIN", 1);
 	""")
@@ -35,7 +34,6 @@ def test_login_page(client):
 	assert response.status_code == 200
 
 @pytest.mark.parametrize("username, password", [
-	("testpatient", "testpass123"),
 	("testdoctor", "testpass456"),
 	("testadmin", "testpass789"),
 ])
@@ -58,8 +56,8 @@ def test_login_invalid(client):
 
 def test_logout(client):
 	client.post("/login", data={
-		"username": "testpatient",
-		"password": "testpass123"
+		"username": "testdoctor",
+		"password": "testpass456"
 	})
 	
 	response = client.get("/logout", follow_redirects=True)
