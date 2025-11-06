@@ -18,6 +18,6 @@ def get_current_user():
 	if not user_id:
 		return None
 	connection = get_db_connection()
-	user = connection.execute("SELECT * FROM USERS WHERE ID = ?", (user_id,)).fetchone()
+	user = connection.execute("SELECT * FROM USERS WHERE ID = ?", (user_id)).fetchone()
 	connection.close()
 	return user
