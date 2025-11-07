@@ -13,10 +13,10 @@ def client():
 		conn.executescript(f.read())
 	
 	conn.execute("""
-		INSERT INTO USERS (USERNAME, PASSWORD, ROLE, VERIFIED)
+		INSERT INTO USERS (USERNAME, PASSWORD, ROLE)
 		VALUES
-		("testdoctor", "testpass456", "PHYSICIAN", 1),
-		("testadmin", "testpass789", "ADMIN", 1);
+		("testdoctor", "testpass456", "PHYSICIAN"),
+		("testadmin", "testpass789", "ADMIN");
 	""")
 	conn.commit()
 	conn.close()
