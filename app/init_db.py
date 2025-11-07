@@ -15,9 +15,14 @@ def database_initialize(db_path=None):
 
 		connection.execute("""
 			INSERT INTO USERS (USERNAME, PASSWORD, ROLE)
-			VALUES
-			("physician1", "physicianpassword", "PHYSICIAN"),
-			("admin1", "adminpassword", "ADMIN");
+			VALUES 
+			("dSalaz5", "tdNU9188", "PHYSICIAN"),
+			("lRoble97", "aFaQ8160", "PHYSICIAN"),
+			("mChase99", "PsGt4470", "PHYSICIAN"),
+			("nCarte59", "khtQ2677", "PHYSICIAN"),
+			("kRice52", "MJUE7094", "PHYSICIAN"),
+			("aMolin2", "xgpp5999", "ADMIN"),
+			("sHowar2", "UhUv7394", "ADMIN");
 			""")
 
 		connection.commit()
