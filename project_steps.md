@@ -227,3 +227,20 @@
 - Create `static/css/login.css`
 	- Add Styling
 
+# Version 0.3 Adding Apointments
+
+## Update User Tables
+
+- Remove `Patients` as User
+- Remove `VERIFIED` from `USERS`
+- Create `PATIENTS` Table
+	- Add `ID`, `NAME_FIRST`, `NAME_LAST`, `EMAIL`, `DOB`, `SEX`, `PHONE_NUMBER`, `ADDRESS`, `MEDICAL_RECORD_NUMBER`
+- Update `Profiles` Table
+	- Rename to `USER_DETAILS`
+	- Add `ID` (PK, FK), `NAME_FIRST`, `NAME_LAST`, `EMAIL`, `DOB`, `PHONE_NUMBER`, `ADDRESS`
+- Update code to updates
+
+## Create Appointments
+
+- Create `APPOINTMENTS` Table
+	- Add `ID` (PK), `PATIENT_ID` (FK), `PHYSICIAN_ID` (FK), `TIME`, `STATUS`, `NOTES`
