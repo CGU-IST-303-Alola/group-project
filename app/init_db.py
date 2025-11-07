@@ -14,15 +14,14 @@ def database_initialize(db_path=None):
 		connection.executescript(schema_f.read())
 
 		connection.execute("""
-			INSERT INTO USERS (USERNAME, PASSWORD, ROLE, VERIFIED)
+			INSERT INTO USERS (USERNAME, PASSWORD, ROLE)
 			VALUES
-			("physician1", "physicianpassword", "PHYSICIAN", 1),
-			("admin1", "adminpassword", "ADMIN", 1);
+			("physician1", "physicianpassword", "PHYSICIAN"),
+			("admin1", "adminpassword", "ADMIN");
 			""")
 
 		connection.commit()
 		connection.close()
-		print("Database Initialized at {db_path}")
 
 if __name__ == "__main__":
 	database_initialize()
