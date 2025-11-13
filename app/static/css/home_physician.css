@@ -1,0 +1,24 @@
+.appointments-container {
+	margin-top: 2rem;
+}
+
+.appointments-section {
+	border: 1px solid #ddd;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+	border-radius: 6px;
+}
+
+.appointments-section h2 {
+	margin-bottom: 0.5rem;
+	font-size: 1.2rem;
+}
+
+.appointment-list {
+	list-style: none;
+	padding-left: 1rem;
+}
+
+.appointment-list li {
+	margin-bottom: 0.4rem;
+}
