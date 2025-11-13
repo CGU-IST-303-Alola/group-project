@@ -20,7 +20,7 @@ def get_current_user():
 	connection.close()
 	return user
 
-def get_physician_appointments(physician_id):
+def get_appointments_physician(physician_id):
 	connection = get_db_connection()
 	appointments = connection.execute(
 		"""
