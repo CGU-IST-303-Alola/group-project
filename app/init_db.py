@@ -20,8 +20,10 @@ def database_initialize(db_path=None):
 		("Stephanie", "Johnson", 1)
 	]
 	data_appointments = [
-		(0, 2, "2025-11-12 14:30:00"),
-		(1, 5, "2025-11-16 11:00:00")
+		(0, 0, "2025-11-12 14:30:00"),
+		(1, 0, "2025-11-12 16:40:00"),
+		(0, 0, "2025-11-12 17:00:00"),
+		(1, 0, "2025-11-16 11:00:00")
 	]
 	connection = sqlite3.connect(db_path)
 	with open(schema_fp, "r") as schema_f:

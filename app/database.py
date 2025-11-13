@@ -19,3 +19,16 @@ def get_current_user():
 	user = connection.execute("SELECT * FROM USERS WHERE ID = ?", (user_id,)).fetchone()
 	connection.close()
 	return user
+
+def get_physician_appointments(physician_id):
+	connection = get_db_connection()
+	appointments = connection.execute(
+		"""
+		SELECT *
+		FROM APPOINTMENTS
+		WHERE PHYSICIAN_ID = ?
+		ORDER BY DATETIME(TIME) ASC
+		""",
+	(physician_id,),).fetchall()
+	connection.close()
+	return appointments

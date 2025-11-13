@@ -243,4 +243,4 @@
 ## Create Appointments
 
 - Create `APPOINTMENTS` Table
-	- Add `ID` (PK), `PATIENT_ID` (FK), `PHYSICIAN_ID` (FK), `TIME`, `STATUS`, `NOTES`
+	- Add `ID` (PK), `PATIENT_ID` (FK), `PHYSICIAN_ID` (FK), `TIME`, `STATUS`
