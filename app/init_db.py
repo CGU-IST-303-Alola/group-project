@@ -1,11 +1,13 @@
 import sqlite3
 import os
 from app.database import get_db_connection
+from app.logger_print import print_logs
 
 base_fp = os.path.dirname(os.path.abspath(__file__))
 schema_fp = os.path.join(base_fp, "schema.sql")
 
-def database_initialize(db_path=None):
+@print_logs
+def database_initialize(db_path=None, LOGS_STATUS=False):
 	data_users = [
 		("dSalaz5", "tdNU9188", "PHYSICIAN"),
 		("lRoble97", "aFaQ8160", "PHYSICIAN"),
@@ -22,8 +24,9 @@ def database_initialize(db_path=None):
 	data_appointments = [
 		(1, 1, "2025-11-12 14:30:00"),
 		(2, 1, "2025-11-12 16:40:00"),
-		(1, 1, "2025-11-12 17:00:00"),
-		(2, 1, "2025-11-16 11:00:00")
+		(1, 1, "2025-11-13 20:30:00"),
+		(2, 1, "2025-11-16 11:00:00"),
+		(2, 1, "2025-11-19 15:30:00")
 	]
 	connection = sqlite3.connect(db_path)
 	with open(schema_fp, "r") as schema_f:

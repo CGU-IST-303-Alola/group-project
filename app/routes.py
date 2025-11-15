@@ -1,14 +1,17 @@
 from flask import session, redirect, url_for, render_template, request, flash
-from app.database import get_db_connection, get_current_user, get_appointments_physician
 from datetime import datetime, timedelta
+from app.database import get_db_connection, get_current_user, get_appointments_physician
+from app.logger_print import print_logs
 
 def routes_startup(app):
 	@app.route("/")
-	def root():
+	@print_logs
+	def root(LOGS_STATUS=False):
 		return redirect(url_for("home"))
 	
 	@app.route("/home")
-	def home():
+	@print_logs
+	def home(LOGS_STATUS=False):
 		user = get_current_user()
 		if not user:
 			return redirect(url_for("login"))
@@ -16,10 +19,10 @@ def routes_startup(app):
 		role = user["ROLE"]
 
 		if role == "PHYSICIAN":
-			print(f"[DEBUG] Physician Home Accessed - User ID: {user["ID"]}, Username: {user["USERNAME"]}")
+			print(f"[LOG] Physician Home Accessed - User ID: {user["ID"]}, Username: {user["USERNAME"]}")
 			
 			appointments = get_appointments_physician(user["ID"])
-			print(f"[DEBUG] Retrieved {len(appointments)} appointments from DB")
+			print(f"[LOG] Retrieved {len(appointments)} appointments")
 
 			now = datetime.now()
 			appointments_current = []
@@ -28,7 +31,6 @@ def routes_startup(app):
 
 			for appointment in appointments:
 				appointment_time = datetime.fromisoformat(appointment["TIME"])
-				print(f"[DEBUG] Appointment ID ({appointment['ID']}), Time: {appointment_time}")
 
 				if ((now - timedelta(minutes=10)) <= appointment_time <= (now + timedelta(hours=1))):
 					appointments_current.append(appointment)
@@ -37,13 +39,17 @@ def routes_startup(app):
 				else:
 					appointments_past.append(appointment)
 			
-			print(f"[DEBUG] Grouped appointments — Current: {len(appointments_current)}, Upcoming: {len(appointments_upcoming)}, Past: {len(appointments_past)}\n")
+			print(f"[LOG] Grouped appointments — Current: {len(appointments_current)}, Upcoming: {len(appointments_upcoming)}, Past: {len(appointments_past)}")
 
+			patient = None
+			
 			return render_template(
 				"home_physician.html",
-				user=user, appointments_current=appointments_current,
+				user=user,
+				appointments_current=appointments_current,
 				appointments_upcoming=appointments_upcoming,
-				appointments_past=appointments_past
+				appointments_past=appointments_past,
+				patient=patient
 			)
 		elif role == "ADMIN":
 			return render_template("home_admin.html", user=user)
@@ -52,7 +58,8 @@ def routes_startup(app):
 			return redirect(url_for("logout"))
 	
 	@app.route("/login", methods=["GET", "POST"])
-	def login():
+	@print_logs
+	def login(LOGS_STATUS=False):
 		if get_current_user():
 			return redirect(url_for("home"))
 		
@@ -81,7 +88,8 @@ def routes_startup(app):
 		return render_template("login.html")
 	
 	@app.route("/logout")
-	def logout():
+	@print_logs
+	def logout(LOGS_STATUS=False):
 		session.pop("user_id", None)
 		# session.clear()
 		flash("Successfully Logged Out", "info")
