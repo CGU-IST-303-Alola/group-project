@@ -244,3 +244,10 @@
 
 - Create `APPOINTMENTS` Table
 	- Add `ID` (PK), `PATIENT_ID` (FK), `PHYSICIAN_ID` (FK), `TIME`, `STATUS`
+
+## Added Logging
+
+- Create `logger_print.py`
+	- Create variable `PRINT_LOGS_ENABLED`
+	- Create wrapper function `print_logs()`
+
