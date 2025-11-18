@@ -1,57 +1,26 @@
-{% extends "base.html" %}
-{% block head %}
-	{{ super() }}
-	<link rel="stylesheet" href="{{ url_for('static', filename='home_physician.css') }}">
-{% endblock %}
-{% block content %}
-<h1>Welcome, Dr. {{ user["USERNAME"] }}!</h1>
-<p>You are logged in as a <strong>Physician</strong>.</p>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Physician Home</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/home_physician.css') }}">
+	</head>
+	<body>
+		<h1>Welcome, Dr. {{ user["NAME_FIRST"] }}!</h1>
+		<p>You are logged in as a <strong> {{ user["ROLE"] }}</strong>.</p>
+		<a href="{{ url_for('logout') }}">Logout</a>
+		<br>
+		<div class="appointments-container">
+			<h3>Appointments</h3>
+			{% for appointment in appointments %}
+				<div class="appointment-container">
+					{{appointment["TIME"]}} - {{appointment["NAME"]}}
+				</div>
+			{% endfor %}
+		</div>
+		
+		
 
-<div class="appointments-container">
-
-<!-- Current Appointments -->
-<div class="appointments-section">
-	<h2>v Current</h2>
-	{% if appointments_current %}
-	<ul class="appointment-list">
-		{% for appt in appointments_current %}
-		<li>
-			<a href="#">{{ appt["PATIENT_ID"] }} — {{ appt["TIME"] }}</a>
-		</li>
-		{% endfor %}
-	</ul>
-	{% else %}
-	<p>No current appointments.</p>
-	{% endif %}
-</div>
-
-<!-- Upcoming Appointments -->
-<div class="appointments-section">
-	<h2>v Upcoming</h2>
-	{% if appointments_upcoming %}
-	<ul class="appointment-list">
-		{% for appt in appointments_upcoming %}
-		<li>{{ appt["PATIENT_ID"] }} — {{ appt["TIME"] }}</li>
-		{% endfor %}
-	</ul>
-	{% else %}
-	<p>No upcoming appointments.</p>
-	{% endif %}
-</div>
-
-<!-- Past Appointments -->
-<div class="appointments-section">
-	<h2>> Past</h2>
-	{% if appointments_past %}
-	<ul class="appointment-list">
-		{% for appt in appointments_past %}
-		<li>{{ appt["PATIENT_ID"] }} — {{ appt["TIME"] }}</li>
-		{% endfor %}
-	</ul>
-	{% else %}
-	<p>No past appointments.</p>
-	{% endif %}
-</div>
-
-</div>
-{% endblock %}
+		<script src="{{ url_for('static', filename='js/home_physician.js') }}"></script>
+	</body>
+</html>

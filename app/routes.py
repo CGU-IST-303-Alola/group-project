@@ -1,6 +1,6 @@
 from flask import session, redirect, url_for, render_template, request, flash
-from datetime import datetime, timedelta
-from app.database import get_db_connection, get_current_user, get_appointments_physician
+from datetime import datetime
+from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician
 from app.logger_print import print_logs
 
 def routes_startup(app):
@@ -24,32 +24,19 @@ def routes_startup(app):
 			appointments = get_appointments_physician(user["ID"])
 			print(f"[LOG] Retrieved {len(appointments)} appointments")
 
-			now = datetime.now()
-			appointments_current = []
-			appointments_upcoming = []
-			appointments_past = []
+			data = []
 
 			for appointment in appointments:
-				appointment_time = datetime.fromisoformat(appointment["TIME"])
-
-				if ((now - timedelta(minutes=10)) <= appointment_time <= (now + timedelta(hours=1))):
-					appointments_current.append(appointment)
-				elif now < appointment_time:
-					appointments_upcoming.append(appointment)
-				else:
-					appointments_past.append(appointment)
-			
-			print(f"[LOG] Grouped appointments — Current: {len(appointments_current)}, Upcoming: {len(appointments_upcoming)}, Past: {len(appointments_past)}")
-
-			patient = None
+				temp = {}
+				dt = datetime.strptime(appointment["TIME"], "%Y-%m-%d %H:%M:%S")
+				temp["TIME"] = f"{dt.strftime('%b %d')}, {dt.hour % 12 or 12}:{dt.strftime('%M %p')}"
+				temp["NAME"] = f"{appointment.get("NAME_FIRST", "")} {appointment.get("NAME_LAST", "")}" or "Unknown Patient"
+				data.append(temp)
 			
 			return render_template(
 				"home_physician.html",
-				user=user,
-				appointments_current=appointments_current,
-				appointments_upcoming=appointments_upcoming,
-				appointments_past=appointments_past,
-				patient=patient
+				user=get_user_details(user["ID"]),
+				appointments=data,
 			)
 		elif role == "ADMIN":
 			return render_template("home_admin.html", user=user)

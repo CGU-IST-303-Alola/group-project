@@ -244,10 +244,27 @@
 
 - Create `APPOINTMENTS` Table
 	- Add `ID` (PK), `PATIENT_ID` (FK), `PHYSICIAN_ID` (FK), `TIME`, `STATUS`
+- Create `get_appointments_physician()`
+	- Return all apointments containing the physicians ID
 
-## Added Logging
+## Add Logging
 
 - Create `logger_print.py`
 	- Create variable `PRINT_LOGS_ENABLED`
 	- Create wrapper function `print_logs()`
+
+## Add User Details
+
+- Add new data for `USERS`, `USER_DETAILS`, `PATIENTS`, and `APPOINTMENTS`
+- Create `get_user_details()`
+	- Joins `USERS` and `USER_DETAILS` by ID
+- Pass `user_id` with details to home page
+
+## Add Patient Info
+
+- Add `PATIENTS` name to `APPOINTMENTS`
+	- Join `APPOINTMENTS` and `PATIENTS` by ID
+
+## Create Display
+
 
