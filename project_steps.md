@@ -265,6 +265,9 @@
 - Add `PATIENTS` name to `APPOINTMENTS`
 	- Join `APPOINTMENTS` and `PATIENTS` by ID
 
-## Create Display
+## Cleaning
+
+- Add Cursor's to sql queries
+- Replace connections with `with get_db_connection as connection`
 
 

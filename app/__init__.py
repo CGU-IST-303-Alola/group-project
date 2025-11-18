@@ -1,6 +1,6 @@
+from flask import Flask
 import os
 from app.init_db import database_initialize
-from flask import Flask
 from app.routes import routes_startup
 
 def create_app(config=None):

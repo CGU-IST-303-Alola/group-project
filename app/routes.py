@@ -27,11 +27,15 @@ def routes_startup(app):
 			data = []
 
 			for appointment in appointments:
-				temp = {}
+				row = {}
+				row["ID"] = appointment["ID"]
+				row["PATIENT_ID"] = appointment["PATIENT_ID"]
+				row["PHYSICIAN_ID"] = appointment["PHYSICIAN_ID"]
+
 				dt = datetime.strptime(appointment["TIME"], "%Y-%m-%d %H:%M:%S")
-				temp["TIME"] = f"{dt.strftime('%b %d')}, {dt.hour % 12 or 12}:{dt.strftime('%M %p')}"
-				temp["NAME"] = f"{appointment.get("NAME_FIRST", "")} {appointment.get("NAME_LAST", "")}" or "Unknown Patient"
-				data.append(temp)
+				row["TIME"] = f"{dt.strftime('%b %d')}, {dt.hour % 12 or 12}:{dt.strftime('%M %p')}"
+				row["NAME"] = f"{appointment["NAME_FIRST"]} {appointment["NAME_LAST"]}"
+				data.append(row)
 			
 			return render_template(
 				"home_physician.html",
