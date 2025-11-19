@@ -227,7 +227,7 @@
 - Create `static/css/login.css`
 	- Add Styling
 
-# Version 0.3 Adding Apointments
+# Version 0.3 Adding Appointments
 
 ## Update User Tables
 
@@ -270,4 +270,13 @@
 - Add Cursor's to sql queries
 - Replace connections with `with get_db_connection as connection`
 
+## Formatting Physician's Page
+
+- Basic Formatting for Physician's Appointments Page
+	- Pass User, Upcoming Appointments, and Past Appointments
+	- Display Appointments as a list with jinja
+
+## Add Appointment Route
+
+- 
 

@@ -9,18 +9,37 @@
 		<h1>Welcome, Dr. {{ user["NAME_FIRST"] }}!</h1>
 		<p>You are logged in as a <strong> {{ user["ROLE"] }}</strong>.</p>
 		<a href="{{ url_for('logout') }}">Logout</a>
-		<br>
 		<div class="appointments-container">
-			<h3>Appointments</h3>
-			{% for appointment in appointments %}
-				<div class="appointment-container">
-					{{appointment["TIME"]}} - {{appointment["NAME"]}}
-				</div>
-			{% endfor %}
-		</div>
-		
-		
+			<h2>Appointments</h2>
 
+			<!-- UPCOMING APPOINTMENTS-->
+			<div class="container upcoming">
+				<h3>Upcoming Appointments</h3>
+				{% for appointment in appointments_upcoming %}
+					<div class="appointment-container">
+						<div class="info">
+							<div class="time">{{ appointment["TIME"] }}</div>
+							<div class="name"> {{ appointment["NAME"] }}</div>
+						</div>
+						<a class="view" href="/appointments/{{ appointment['ID'] }}">View</a>
+					</div>
+				{% endfor %}
+			</div>
+
+			<!-- PAST APPOINTMENTS-->
+			<div class="container past">
+				<h3>Past Appointments</h3>
+				{% for appointment in appointments_past %}
+					<div class="appointment-container">
+						<div class="info">
+							<div class="time">{{ appointment["TIME"] }}</div>
+							<div class="name">{{ appointment["NAME"] }}</div>
+						</div>
+						<a class="view" href="/appointments/{{ appointment['ID'] }}">View</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 		<script src="{{ url_for('static', filename='js/home_physician.js') }}"></script>
 	</body>
 </html>
