@@ -1,6 +1,6 @@
 from flask import session, redirect, url_for, render_template, request, flash
 from datetime import datetime, timedelta
-from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician
+from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician, get_appointment, get_patient
 from app.logger_print import print_logs
 
 def routes_startup(app):
@@ -88,12 +88,14 @@ def routes_startup(app):
 		if LOGS_STATUS: 
 			print(f"[LOG] User ({user["ID"]}) Accessed Appointment ({appointment_id})")
 		
-		
-		
+		appointment = get_appointment(appointment_id)
+		dt = datetime.strptime(appointment["TIME"], "%Y-%m-%d %H:%M:%S")
+		hour = f"{dt.hour % 12 or 12:2d}"
+		appointment["TIME"] = f"{hour}:{dt.strftime('%M %p')}"
+		patient = get_patient(appointment["PATIENT_ID"])
+		patient["NAME"] = f"{patient["NAME_FIRST"]} {patient["NAME_LAST"]}"
+		patient["ID"] = f"{patient["ID"]:06d}"
 
-
-		patient = None
-		appointment = None
 		db = None
 		return render_template(
 			'appointments.html',
@@ -128,7 +130,7 @@ def get_appointments_assorted(appointments, within: timedelta, LOGS_STATUS=False
 		if (today <= dt <= end):
 			upcoming.append(row)
 		elif dt < today:
-			past.append(row)
+			past.insert(0, row)
 
 	return upcoming, past
 

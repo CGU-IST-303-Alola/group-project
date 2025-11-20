@@ -1,0 +1,23 @@
+html {
+	font-family: "Candara Light", Candara, sans-serif;
+}
+
+body {
+	margin: 16px;
+}
+
+.header-bar {
+	height: 40px;
+	width: 600px;
+	background-color: rgb();
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+}
+
+.header-bar p {
+	height: 100%;
+	width: fit-content;
+	margin: 0 32px;
+	text-align: center;
+}

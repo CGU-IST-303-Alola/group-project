@@ -22,15 +22,28 @@ def database_initialize(db_path=None, LOGS_STATUS=False):
 		(5, "Kathleen", "Moore", "kathleen.moore6781@gmail.com")
 	]
 	data_patients = [
-		("Andre", "Mitchel", 0),
-		("Stephanie", "Johnson", 1)
+		("Alex", "Mendoza", 0),
+		("Casey", "Lang", 1),
+		("Diana", "Potts", 1),
+		("Susan", "Mills", 1),
+		("Patrick", "Rocha", 0),
+		("Jessica", "Stark", 1),
+		("Latoya", "Neal", 1),
+		("Randy", "Garcia", 0),
+		("Brandy", "Rodriguez", 1),
+		("Justin", "Hall", 0)
 	]
 	data_appointments = [
-		(1, 1, "2025-11-12 14:30:00"),
-		(2, 1, "2025-11-12 16:40:00"),
-		(1, 1, "2025-11-13 20:30:00"),
-		(2, 1, "2025-11-16 11:00:00"),
-		(2, 1, "2025-11-19 15:30:00")
+		(1, 1, "2025-11-12 14:30:00", "COMPLETED"),
+		(2, 1, "2025-11-12 16:40:00", "COMPLETED"),
+		(3, 1, "2025-11-13 20:30:00", "COMPLETED"),
+		(4, 1, "2025-11-16 11:00:00", "COMPLETED"),
+		(5, 1, "2025-11-19 15:00:00", "COMPLETED"),
+		(1, 1, "2025-11-20 01:30:00", "SCHEDULED"),
+		(2, 1, "2025-11-20 10:00:00", "SCHEDULED"),
+		(3, 1, "2025-11-20 12:30:00", "SCHEDULED"),
+		(4, 1, "2025-11-20 13:00:00", "SCHEDULED"),
+		(5, 1, "2025-11-20 13:30:00", "SCHEDULED"),
 	]
 	connection = sqlite3.connect(db_path)
 	with open(schema_fp, "r") as schema_f:
@@ -46,8 +59,8 @@ def database_initialize(db_path=None, LOGS_STATUS=False):
 			INSERT INTO PATIENTS (NAME_FIRST, NAME_LAST, SEX)
 			VALUES (?, ?, ?)""", data_patients)
 		connection.executemany("""
-			INSERT INTO APPOINTMENTS (PATIENT_ID, PHYSICIAN_ID, TIME)
-			VALUES (?, ?, ?)""", data_appointments)
+			INSERT INTO APPOINTMENTS (PATIENT_ID, PHYSICIAN_ID, TIME, STATUS)
+			VALUES (?, ?, ?, ?)""", data_appointments)
 		connection.commit()
 		connection.close()
 

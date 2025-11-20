@@ -5,7 +5,8 @@ from app.routes import routes_startup
 
 def create_app(config=None):
 	app = Flask(__name__)
-	app.config["SECRET_KEY"] = os.urandom(24)
+	app.config["SECRET_KEY"] = "super secret key"
+	# app.config["SECRET_KEY"] = os.urandom(24)
 
 	if config:
 		app.config.update(config)

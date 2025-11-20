@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Appointment</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/appointments.css') }}">
+	</head>
+	<body>
+		<div class="header-bar">
+			<a class="home-button" href=" {{ url_for('home')}} ">Home</a>
+			<p><strong>ID</strong><br>{{ patient["ID"] }}</p>
+			<p><strong>Time</strong><br>{{ appointment["TIME"] }}</p>
+			<p><strong>Patient Name</strong><br>{{ patient["NAME"] }}</p>
+		</div>
+		<div class="content">
+			<div class="container vitals">
+				<h2>Vitals</h2>
+			</div>
+			<div class="container search">
+				<h2>Search</h2>
+			</div>
+			<div class="container notes">
+				<h2>Notes</h2>
+			</div>
+		</div>
+	</body>
+</html>

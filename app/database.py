@@ -24,7 +24,7 @@ def get_current_user(LOGS_STATUS=False):
 		cursor = connection.cursor()
 		cursor.execute("SELECT * FROM USERS WHERE ID = ?", (user_id,))
 		user = cursor.fetchone()
-	return user
+	return dict(user)
 
 @print_logs
 def get_appointments_physician(physician_id, LOGS_STATUS=False):
@@ -45,7 +45,7 @@ def get_appointments_physician(physician_id, LOGS_STATUS=False):
 			(physician_id,)
 		)
 		rows = cursor.fetchall()
-	return rows
+	return [dict(row) for row in rows]
 
 @print_logs
 def get_user_details(user_id, LOGS_STATUS=False):
@@ -72,4 +72,36 @@ def get_user_details(user_id, LOGS_STATUS=False):
 	if LOGS_STATUS: 
 		print("[LOG] User Details Recieved")
 		# print(f"[LOG] {user['NAME_FIRST']}")
-	return user
+	return dict(user)
+
+@print_logs
+def get_appointment(appointment_id, LOGS_STATUS=False):
+	appointment = None
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute(
+			"""
+			SELECT *
+			FROM APPOINTMENTS
+			WHERE ID = ?
+			""",
+			(appointment_id,)
+		)
+		appointment = cursor.fetchone()
+	return dict(appointment)
+
+@print_logs
+def get_patient(patient_id, LOGS_STATUS=False):
+	patient = None
+	with get_db_connection() as connection:
+		cursor = connection.cursor()
+		cursor.execute(
+			"""
+			SELECT *
+			FROM PATIENTS
+			WHERE ID = ?
+			""",
+			(patient_id,)
+		)
+		patient = cursor.fetchone()
+	return dict(patient)
