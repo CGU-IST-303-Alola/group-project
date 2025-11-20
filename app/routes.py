@@ -1,6 +1,6 @@
 from flask import session, redirect, url_for, render_template, request, flash
 from datetime import datetime, timedelta
-from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician, get_appointment, get_patient
+from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician, get_appointment, get_patient, set_appointment
 from app.logger_print import print_logs
 
 def routes_startup(app):
@@ -104,6 +104,26 @@ def routes_startup(app):
 			appointment=appointment,
 			db=db
 		)
+	
+	@app.route("/appointment/<int:appointment_id>/end", methods=["POST"])
+	@print_logs
+	def appointment_end(appointment_id, LOGS_STATUS=False):
+		user = get_current_user()
+		if not user:
+			return redirect(url_for("login"))
+		
+		if LOGS_STATUS: 
+			print(f"[LOG] User ({user["ID"]}) Ended Appointment ({appointment_id})")
+		
+		appointment = get_appointment(appointment_id)
+		
+		notes = request.form.get("notes")
+		appointment["NOTES"] = notes
+		appointment["STATUS"] = "COMPLETED"
+
+		set_appointment(appointment)
+
+		return redirect(url_for("home"))
 
 
 @print_logs

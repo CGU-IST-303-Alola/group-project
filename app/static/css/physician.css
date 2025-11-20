@@ -1,7 +1,10 @@
 :root {
 	--appointments-width: 600px;
 	--appointment-width: 80%;
-	
+	--color-1: rgb(217, 217, 217);
+	--color-2: rgb(192, 192, 192);
+	--color-3: rgb(156, 156, 156);
+	--color-4: rgb(103, 208, 218);
 }
 
 html {
@@ -93,16 +96,18 @@ body {
 .appointment-container .view {
 	height: 32px;
 	width: 48px;
-	border: 1px solid #007bff;
+	border: 1px solid var(--color-4);
 	border-radius: 5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 16px;
+	color: var(--color-4);
 	text-decoration: none;
 }
 
+
 .appointment-container .view:hover {
-	background-color: #007bff;
+	background-color: var(--color-4);
 	color: white;
 }

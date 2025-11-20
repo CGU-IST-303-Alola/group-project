@@ -8,7 +8,7 @@ schema_fp = os.path.join(base_fp, "schema.sql")
 @print_logs
 def database_initialize(db_path=None, LOGS_STATUS=False):
 	data_users = [
-		("eGarri53", "LohD2986", "PHYSICIAN"),
+		("eGarri53", "password123", "PHYSICIAN"),
 		("jMcdon96", "olxl885", "PHYSICIAN"),
 		("cMitch50", "cWgf2896", "PHYSICIAN"),
 		("dMarti56", "wojc1182", "PHYSICIAN"),
