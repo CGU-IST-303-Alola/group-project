@@ -45,7 +45,7 @@ def get_appointments_physician(physician_id, LOGS_STATUS=False):
 			(physician_id,)
 		)
 		rows = cursor.fetchall()
-	return [dict(row) for row in rows]
+	return rows
 
 @print_logs
 def get_user_details(user_id, LOGS_STATUS=False):

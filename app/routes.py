@@ -9,37 +9,6 @@ def routes_startup(app):
 	def root(LOGS_STATUS=False):
 		return redirect(url_for("home"))
 	
-	@app.route("/home")
-	@print_logs
-	def home(LOGS_STATUS=False):
-		user = get_current_user()
-		if not user:
-			return redirect(url_for("login"))
-		
-		user = get_user_details(user["ID"])
-
-		role = user["ROLE"]
-
-		if role == "PHYSICIAN":
-			print(f"[LOG] Physician Home Accessed - User ID: {user["ID"]}, Username: {user["USERNAME"]}")
-			
-			appointments = get_appointments_physician(user["ID"])
-			print(f"[LOG] Retrieved {len(appointments)} appointments")
-
-			data_upcoming, data_past = get_appointments_assorted(appointments, timedelta(days=2))
-			
-			return render_template(
-				"home_physician.html",
-				user=user,
-				appointments_upcoming=data_upcoming,
-				appointments_past=data_past
-			)
-		elif role == "ADMIN":
-			return render_template("home_admin.html", user=user)
-		else:
-			flash("Invalid Role")
-			return redirect(url_for("logout"))
-	
 	@app.route("/login", methods=["GET", "POST"])
 	@print_logs
 	def login(LOGS_STATUS=False):
@@ -77,6 +46,63 @@ def routes_startup(app):
 		# session.clear()
 		flash("Successfully Logged Out", "info")
 		return redirect(url_for("login"))
+	
+	@app.route("/home")
+	@print_logs
+	def home(LOGS_STATUS=False):
+		user = get_current_user()
+		if not user:
+			return redirect(url_for("login"))
+		
+		user = get_user_details(user["ID"])
+
+		role = user["ROLE"]
+
+		if role == "PHYSICIAN":
+			print(f"[LOG] Physician Home Accessed - User ID: {user["ID"]}, Username: {user["USERNAME"]}")
+			
+			appointments = get_appointments_physician(user["ID"])
+			print(f"[LOG] Retrieved {len(appointments)} appointments")
+
+			data_upcoming, data_past = get_appointments_assorted(appointments, timedelta(days=2))
+			
+			return render_template(
+				"physician.html",
+				user=user,
+				appointments_upcoming=data_upcoming,
+				appointments_past=data_past
+			)
+		elif role == "ADMIN":
+			return render_template("home_admin.html", user=user)
+		else:
+			flash("Invalid Role")
+			return redirect(url_for("logout"))
+		
+	@app.route("/appointments/<int:appointment_id>")
+	@print_logs
+	def appointments(appointment_id, LOGS_STATUS=False):
+		user = get_current_user()
+		if not user:
+			return redirect(url_for("login"))
+		
+		if LOGS_STATUS: 
+			print(f"[LOG] User ({user["ID"]}) Accessed Appointment ({appointment_id})")
+		
+		
+		
+
+
+		patient = None
+		appointment = None
+		db = None
+		return render_template(
+			'appointments.html',
+			user=user,
+			patient=patient,
+			appointment=appointment,
+			db=db
+		)
+
 
 @print_logs
 def get_appointments_assorted(appointments, within: timedelta, LOGS_STATUS=False):
