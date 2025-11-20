@@ -21,7 +21,7 @@
 							<div class="time">{{ appointment["TIME"] }}</div>
 							<div class="name"> {{ appointment["NAME"] }}</div>
 						</div>
-						<a class="view" href="/appointments/{{ appointment['ID'] }}">View</a>
+						<a class="view" href="{{ url_for('appointments', appointment_id=appointment['ID']) }}">View</a>
 					</div>
 				{% endfor %}
 			</div>
@@ -35,11 +35,10 @@
 							<div class="time">{{ appointment["TIME"] }}</div>
 							<div class="name">{{ appointment["NAME"] }}</div>
 						</div>
-						<a class="view" href="/appointments/{{ appointment['ID'] }}">View</a>
+						<a class="view" href="{{ url_for('appointments', appointment_id=appointment['ID']) }}">View</a>
 					</div>
 				{% endfor %}
 			</div>
 		</div>
-		<script src="{{ url_for('static', filename='js/home_physician.js') }}"></script>
 	</body>
 </html>
