@@ -23,5 +23,3 @@ Git & GitHub for version control and collaboration
 Testing frameworks for reliability
 
 Web frameworks to build and deploy software efficiently
-
-4. MANY CSS Features
