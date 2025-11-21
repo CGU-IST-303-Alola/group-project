@@ -85,14 +85,18 @@ def routes_startup(app):
 		if not user:
 			return redirect(url_for("login"))
 		
+		if user["ROLE"] != "PHYSICIAN": return redirect(url_for("home"))
+		
 		if LOGS_STATUS: 
 			print(f"[LOG] User ({user["ID"]}) Accessed Appointment ({appointment_id})")
 		
 		appointment = get_appointment(appointment_id)
-		dt = datetime.strptime(appointment["APPOINTMENT_TIME"], "%Y-%m-%d %H:%M:%S")
+		dt = datetime.fromtimestamp(appointment["APPOINTMENT_TIME"])
 		hour = f"{dt.hour % 12 or 12:2d}"
 		appointment["APPOINTMENT_TIME"] = f"{hour}:{dt.strftime('%M %p')}"
 		patient = get_patient(appointment["PATIENT_ID"])
+		if patient is None:
+			return "No Patient", 403
 		patient["NAME"] = f"{patient["NAME_FIRST"]} {patient["NAME_LAST"]}"
 		patient["ID"] = f"{patient["ID"]:06d}"
 
@@ -112,6 +116,8 @@ def routes_startup(app):
 		if not user:
 			return redirect(url_for("login"))
 		
+		if user["ROLE"] != "PHYSICIAN": return redirect(url_for("home"))
+
 		if LOGS_STATUS: 
 			print(f"[LOG] User ({user["ID"]}) Ended Appointment ({appointment_id})")
 	
@@ -137,7 +143,7 @@ def get_appointments_assorted(appointments, within: timedelta, LOGS_STATUS=False
 		row["PHYSICIAN_ID"] = appointment["PHYSICIAN_ID"]
 		row["STATUS"] = appointment["STATUS"]
 
-		dt = datetime.strptime(appointment["APPOINTMENT_TIME"], "%Y-%m-%d %H:%M:%S")
+		dt = datetime.fromtimestamp(int(appointment["APPOINTMENT_TIME"]))
 		row["DT"] = dt
 
 		day = f"{dt.day:2d}"

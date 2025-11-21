@@ -48,6 +48,7 @@ def get_appointments_physician(physician_id, LOGS_STATUS=False):
 			(physician_id,)
 		)
 		rows = cursor.fetchall()
+		if rows is None: return None
 	return [dict(row) for row in rows]
 
 @print_logs
@@ -71,7 +72,7 @@ def get_user_details(user_id, LOGS_STATUS=False):
 			(user_id,)
 		)
 		user = cursor.fetchone()
-	
+	if user is None: return None
 	if LOGS_STATUS: 
 		print("[LOG] User Details Recieved")
 		# print(f"[LOG] {user['NAME_FIRST']}")
@@ -91,6 +92,7 @@ def get_appointment(appointment_id, LOGS_STATUS=False):
 			(appointment_id,)
 		)
 		appointment = cursor.fetchone()
+		if appointment is None: return None
 	return dict(appointment)
 
 @print_logs
@@ -107,6 +109,7 @@ def get_patient(patient_id, LOGS_STATUS=False):
 			(patient_id,)
 		)
 		patient = cursor.fetchone()
+	if patient is None: return None
 	return dict(patient)
 
 @print_logs
@@ -146,12 +149,13 @@ def db_check_update(LOGS_STATUS=False):
 		return appointments
 	
 	with get_db_connection() as connection:
+		appointments_today = 0
 		cursor = connection.cursor()
 		cursor.execute(
 			"""
 			UPDATE APPOINTMENTS
 			SET STATUS = "MISSED"
-			WHERE DATE(APPOINTMENT_TIME) < DATE('now')
+			WHERE DATE(APPOINTMENT_TIME, 'unixepoch') < DATE('now')
 			AND STATUS = "SCHEDULED"
 			"""
 		)
@@ -161,7 +165,7 @@ def db_check_update(LOGS_STATUS=False):
 			"""
 			SELECT COUNT(*)
 			FROM APPOINTMENTS
-			WHERE DATE(APPOINTMENT_TIME) = DATE('now')
+			WHERE DATE(APPOINTMENT_TIME, 'unixepoch') = DATE('now')
 			"""
 		)
 		(appointments_today,) = cursor.fetchone()

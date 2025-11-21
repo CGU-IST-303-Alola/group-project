@@ -18,7 +18,7 @@
 				{% for appointment in appointments_upcoming %}
 					<div class="appointment-container">
 						<div class="info">
-							<div class="time">{{ appointment["TIME"] }}</div>
+							<div class="time">{{ appointment["APPOINTMENT_TIME"] }}</div>
 							<div class="name"> {{ appointment["NAME"] }}</div>
 						</div>
 						<a class="view" href="{{ url_for('appointments', appointment_id=appointment['ID']) }}">View</a>
@@ -32,7 +32,7 @@
 				{% for appointment in appointments_past %}
 					<div class="appointment-container">
 						<div class="info">
-							<div class="time">{{ appointment["TIME"] }}</div>
+							<div class="time">{{ appointment["APPOINTMENT_TIME"] }}</div>
 							<div class="name">{{ appointment["NAME"] }}</div>
 						</div>
 						<a class="view" href="{{ url_for('appointments', appointment_id=appointment['ID']) }}">View</a>
