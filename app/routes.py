@@ -1,6 +1,6 @@
 from flask import session, redirect, url_for, render_template, request, flash
 from datetime import datetime, timedelta
-from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician, get_appointment, get_patient, set_appointment
+from app.database import get_db_connection, get_current_user, get_user_details, get_appointments_physician, get_appointment, get_patient, appointment_update
 from app.logger_print import print_logs
 
 def routes_startup(app):
@@ -89,9 +89,9 @@ def routes_startup(app):
 			print(f"[LOG] User ({user["ID"]}) Accessed Appointment ({appointment_id})")
 		
 		appointment = get_appointment(appointment_id)
-		dt = datetime.strptime(appointment["TIME"], "%Y-%m-%d %H:%M:%S")
+		dt = datetime.strptime(appointment["APPOINTMENT_TIME"], "%Y-%m-%d %H:%M:%S")
 		hour = f"{dt.hour % 12 or 12:2d}"
-		appointment["TIME"] = f"{hour}:{dt.strftime('%M %p')}"
+		appointment["APPOINTMENT_TIME"] = f"{hour}:{dt.strftime('%M %p')}"
 		patient = get_patient(appointment["PATIENT_ID"])
 		patient["NAME"] = f"{patient["NAME_FIRST"]} {patient["NAME_LAST"]}"
 		patient["ID"] = f"{patient["ID"]:06d}"
@@ -114,14 +114,10 @@ def routes_startup(app):
 		
 		if LOGS_STATUS: 
 			print(f"[LOG] User ({user["ID"]}) Ended Appointment ({appointment_id})")
-		
-		appointment = get_appointment(appointment_id)
-		
+	
 		notes = request.form.get("notes")
-		appointment["NOTES"] = notes
-		appointment["STATUS"] = "COMPLETED"
 
-		set_appointment(appointment)
+		appointment_update(appointment_id, "COMPLETED", notes)
 
 		return redirect(url_for("home"))
 
@@ -141,16 +137,22 @@ def get_appointments_assorted(appointments, within: timedelta, LOGS_STATUS=False
 		row["PHYSICIAN_ID"] = appointment["PHYSICIAN_ID"]
 		row["STATUS"] = appointment["STATUS"]
 
-		dt = datetime.strptime(appointment["TIME"], "%Y-%m-%d %H:%M:%S")
+		dt = datetime.strptime(appointment["APPOINTMENT_TIME"], "%Y-%m-%d %H:%M:%S")
+		row["DT"] = dt
+
 		day = f"{dt.day:2d}"
 		hour = f"{dt.hour % 12 or 12:2d}"
-		row["TIME"] = f"{dt.strftime('%b')} {day}, {hour}:{dt.strftime('%M %p')}"
+		row["APPOINTMENT_TIME"] = f"{dt.strftime('%b')} {day}, {hour}:{dt.strftime('%M %p')}"
 		row["NAME"] = f"{appointment["NAME_FIRST"]} {appointment["NAME_LAST"]}"
 		
-		if (today <= dt <= end):
+		if appointment["STATUS"] == "COMPLETED":
+			past.insert(0, row)
+		elif (today <= dt <= end):
 			upcoming.append(row)
 		elif dt < today:
 			past.insert(0, row)
 
+		upcoming.sort(key=lambda x: x["DT"])
+		past.sort(key=lambda x: x["DT"], reverse=True)
 	return upcoming, past
 

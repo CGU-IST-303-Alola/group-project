@@ -11,15 +11,13 @@ def database_initialize(db_path=None, LOGS_STATUS=False):
 		("eGarri53", "password123", "PHYSICIAN"),
 		("jMcdon96", "olxl885", "PHYSICIAN"),
 		("cMitch50", "cWgf2896", "PHYSICIAN"),
-		("dMarti56", "wojc1182", "PHYSICIAN"),
 		("kMoore63", "hyKE5105", "ADMIN")
 	]
 	data_user_details = [
 		(1, "Edward", "Garrison", "edward.garrison4248@gmail.com"),
 		(2, "Joseph", "Mcdonald", "joseph.mcdonald5447@gmail.com"),
 		(3, "Carrie", "Mitchell", "carrie.mitchell3039@gmail.com"),
-		(4, "Dennis", "Martinez", "dennis.martinez5880@gmail.com"),
-		(5, "Kathleen", "Moore", "kathleen.moore6781@gmail.com")
+		(4, "Kathleen", "Moore", "kathleen.moore6781@gmail.com")
 	]
 	data_patients = [
 		("Alex", "Mendoza", 0),
@@ -58,9 +56,7 @@ def database_initialize(db_path=None, LOGS_STATUS=False):
 		connection.executemany("""
 			INSERT INTO PATIENTS (NAME_FIRST, NAME_LAST, SEX)
 			VALUES (?, ?, ?)""", data_patients)
-		connection.executemany("""
-			INSERT INTO APPOINTMENTS (PATIENT_ID, PHYSICIAN_ID, TIME, STATUS)
-			VALUES (?, ?, ?, ?)""", data_appointments)
+		
 		connection.commit()
 		connection.close()
 
